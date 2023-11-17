@@ -14,7 +14,7 @@ $ git submodule update --init
 ```
 
 This template has no requirement for iree as a submodule. But, vcpkg is required to
-be added as a submodule. They suggest using vcpkg as a submodule so the consuming 
+be added as a submodule. Microsoft suggests using vcpkg as a submodule so the consuming 
 repo can stay self-contained.
 
 ### Building the Runtime
