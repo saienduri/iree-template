@@ -1,6 +1,4 @@
-# IREE Runtime Hello World with CMake
-
-[![Build with Latest IREE Release](https://github.com/iree-org/iree-template-runtime-cmake/actions/workflows/build-and-test.yml/badge.svg?query=branch%3Amain+event%3Apush)](https://github.com/iree-org/iree-template-runtime-cmake/actions/workflows/build-and-test.yml?query=branch%3Amain+event%3Apush)
+# IREE Runtime Hello World with vcpkg
 
 ## Instructions
 
@@ -10,45 +8,54 @@ Use GitHub's "Use this template" feature to create a new repository or clone it
 manually:
 
 ```sh
-$ git clone https://github.com/iree-org/iree-template-runtime-cmake.git
-$ cd iree-template-runtime-cmake
-$ git submodule update --init --recursive
+$ git clone https://github.com/iree-org/iree-template-runtime-vcpkg.git
+$ cd iree-template-runtime-vcpkg
+$ git submodule update --init
 ```
 
-The only requirement is that the main IREE repository is added as a submodule.
-If working in an existing repository then add the submodule and ensure it has
-its submodules initialized:
-
-```sh
-$ git submodule add https://github.com/openxla/iree.git third_party/iree/
-$ git submodule update --init --recursive
-```
-
-For a faster checkout some compiler-only dependencies can be dropped as this
-template is only compiling the runtime (only bother if optimizing build bots):
-
-```sh
-$ git \
-    -c submodule."third_party/llvm-project".update=none \
-    -c submodule."third_party/stablehlo".update=none \
-    -c submodule."third_party/torch-mlir".update=none \
-    submodule update --init --recursive
-```
+This template has no requirement for iree as a submodule. But, vcpkg is required to
+be added as a submodule. They suggest using vcpkg as a submodule so the consuming 
+repo can stay self-contained.
 
 ### Building the Runtime
 
-The [CMakeLists.txt](./CMakeLists.txt) adds the IREE CMake files as a subproject
-and configures it for runtime-only compilation. A project wanting to build the
-compiler from source or include other HAL drivers (CUDA, Vulkan, multi-threaded
-CPU, etc) can change which options they set before they `add_subdirectory` on
-the IREE project and/or pass the configuration to the CMake configure command.
+The [portfile.cmake](./iree/portfile.cmake) configures it for runtime-only compilation.
+It also uses only submodules needed for iree-runtime for fastest installation.
+A project wanting to build the compiler from source or include other HAL drivers 
+(CUDA, Vulkan, multi-threaded CPU, etc) can change which options they set 
+in the cmake config section of the portfile.cmake file.
 
-The sample currently compiles in the synchronous CPU HAL driver (`local-sync`).
+### User Implementation Instructions
+
+As a user, if you want to build the runtime for your particular executable, simply
+change the last 5 lines of [CMakeLists.txt](./iree/CMakeLists.txt).
+
+```
+iree_cc_binary(
+  NAME
+    hello_world
+  SRCS
+    "hello_world.c"
+  DEPS
+    iree::runtime
+)
+```
+
+Change this s.t. it is your intended exectuable name, sources, and dependencies.
+Make sure the source files are also in the iree folder.
+
+### Installation
+
+Here are the actual installation instructions that will build the iree-runtime and
+create the executable:
 
 ```sh
-$ cmake -B build/ -GNinja .
-$ cmake --build build/ --target hello_world
+$ ./vcpkg/vcpkg/bootstrap-vcpkg.sh
+$ ./vcpkg/vcpkg install iree
 ```
+
+You will find the executable in the package's bin dir 
+(./vcpkg/packages/iree_x64-linux/bin/hello_world)
 
 ### Compiling the Sample Module
 
@@ -72,7 +79,7 @@ $ iree-compile \
     --iree-hal-target-backends=llvm-cpu \
     --iree-llvmcpu-target-triple=x86_64 \
     simple_mul.mlir \
-    -o build/simple_mul.vmfb
+    -o simple_mul.vmfb
 ```
 
 ### Running the Sample
@@ -84,7 +91,7 @@ execution, providing output storage buffers for results, and stateful programs
 are covered in other IREE samples.
 
 ```sh
-$ ./build/hello_world local-sync build/simple_mul.vmfb
+$ ./vcpkg/packages/iree_x64-linux/bin/hello_world local-sync simple_mul.vmfb
 4xf32=1 1.1 1.2 1.3
  *
 4xf32=10 100 1000 10000
