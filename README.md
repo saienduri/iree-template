@@ -50,7 +50,7 @@ Here are the actual installation instructions that will build the iree-runtime a
 create the executable:
 
 ```sh
-$ cp -r ./iree ./vcpkg/ports (also can do mv instead of cp)
+$ cp -r ./iree ./vcpkg/ports (also can mv instead of cp)
 $ ./vcpkg/vcpkg/bootstrap-vcpkg.sh
 $ ./vcpkg/vcpkg install iree
 ```
