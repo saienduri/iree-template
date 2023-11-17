@@ -23,12 +23,12 @@ The [portfile.cmake](./iree/portfile.cmake) configures it for runtime-only compi
 It also uses only submodules needed for iree-runtime for fastest installation.
 A project wanting to build the compiler from source or include other HAL drivers 
 (CUDA, Vulkan, multi-threaded CPU, etc) can change which options they set 
-in the cmake config section of the portfile.cmake file.
+in the `vcpkg_cmake_configure` function of the portfile.cmake file.
 
 ### User Implementation Instructions
 
-As a user, if you want to build the runtime for your particular executable, simply
-change the last 5 lines of [CMakeLists.txt](./iree/CMakeLists.txt).
+As a user, if you want to build the runtime for your particular sample, simply
+change the last 8 lines of [CMakeLists.txt](./iree/CMakeLists.txt).
 
 ```
 iree_cc_binary(
@@ -50,6 +50,7 @@ Here are the actual installation instructions that will build the iree-runtime a
 create the executable:
 
 ```sh
+$ cp -r ./iree ./vcpkg/ports (also can do mv instead of cp)
 $ ./vcpkg/vcpkg/bootstrap-vcpkg.sh
 $ ./vcpkg/vcpkg install iree
 ```
