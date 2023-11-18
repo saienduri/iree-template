@@ -42,7 +42,7 @@ iree_cc_binary(
 ```
 
 Change this s.t. it is your intended exectuable name, sources, and dependencies.
-Make sure the source files are also in the iree folder.
+Make sure the source files are in the iree folder like how hello_world.c is currently.
 
 ### Installation
 
