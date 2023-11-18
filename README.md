@@ -51,7 +51,7 @@ create the executable:
 
 ```sh
 $ cp -r ./iree ./vcpkg/ports (also can mv instead of cp)
-$ ./vcpkg/vcpkg/bootstrap-vcpkg.sh
+$ ./vcpkg/bootstrap-vcpkg.sh
 $ ./vcpkg/vcpkg install iree
 ```
 
