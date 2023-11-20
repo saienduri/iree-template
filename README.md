@@ -28,7 +28,7 @@ in the `vcpkg_cmake_configure` function of the portfile.cmake file.
 ### User Implementation Instructions
 
 As a user, if you want to build the runtime for your particular sample, simply
-change the last 8 lines of [CMakeLists.txt](./iree/CMakeLists.txt).
+change the [CMakeLists.txt](./iree/CMakeLists.txt) to your preferred usage.
 
 ```
 iree_cc_binary(
