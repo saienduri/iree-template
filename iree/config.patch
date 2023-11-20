@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0110c17ec..4c28bcdc6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1046,3 +1046,13 @@ endif()
+ if(IREE_BUILD_TESTS)
+   iree_create_ctest_customization()
+ endif()
++
++include(CMakePackageConfigHelpers)
++write_basic_package_version_file(
++  "ireeConfigVersion.cmake"
++  VERSION 1.0.0
++  COMPATIBILITY AnyNewerVersion
++)
++
++install(FILES "ireeConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}/ireeConfigVersion.cmake"
++      DESTINATION lib/cmake/iree)
