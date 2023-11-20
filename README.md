@@ -8,7 +8,7 @@ Use GitHub's "Use this template" feature to create a new repository or clone it
 manually:
 
 ```sh
-$ git clone https://github.com/iree-org/iree-template-runtime-vcpkg.git
+$ git clone https://github.com/saienduri/iree-template-runtime-vcpkg.git
 $ cd iree-template-runtime-vcpkg
 $ git submodule update --init
 ```
