@@ -3,7 +3,7 @@ vcpkg_from_git(
     URL https://github.com/openxla/iree.git
     REF 522fac0bfc3e933817b0e64ced377b0314363115
     PATCHES
-        config.patch
+        configuration.patch
 )
 
 vcpkg_from_git(
@@ -149,10 +149,10 @@ if (NOT EXISTS "${SOURCE_PATH}/third_party/webgpu-headers/readme.md")
     file(COPY "${WEBGPU-HEADERS_SOURCE_PATH}/" DESTINATION "${SOURCE_PATH}/third_party/webgpu-headers")
 endif()
 
-file(READ "${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt" CONTENTS)
-file(APPEND "${SOURCE_PATH}/CMakeLists.txt" "${CONTENTS}")
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/ireeConfig.cmake" DESTINATION "${SOURCE_PATH}")
 file(COPY "${CMAKE_CURRENT_LIST_DIR}/hello_world.c" DESTINATION "${SOURCE_PATH}")
+file(READ "${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt" CONTENTS)
+file(APPEND "${SOURCE_PATH}/CMakeLists.txt" "${CONTENTS}")
 
 SET(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
 
